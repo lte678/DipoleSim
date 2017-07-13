@@ -1,11 +1,14 @@
-int[] simRes = {64,64};
+int[] simRes = {4,4};
+static int windowWidth = 1280;
+static int windowHeight = 720;
+
 
 int[][] eField = new int[simRes[0]][simRes[1]];
 float scale = 0.01f; //m per sim unit
 float dt = 0.1f; //
 
-double drawScale; //pixel per meter
-double cellScale; //pixel per cell
+double drawScale; //pixels per meter
+double cellScale; //pixels per cell
 
 class Dipole {
   double current = 1.0f;
@@ -16,12 +19,12 @@ class Dipole {
 }
 
 void setup() {
-  size(displayWidth, displayHeight);
+  surface.setSize(windowWidth, windowHeight);
  
   if(width <= height) {
-    cellScale = width / (float)simRes[0];
+    cellScale = (float)width / (float)simRes[0];
   } else {
-    cellScale = height / (float)simRes[1];
+    cellScale = (float)height / (float)simRes[1];
   }
   
   drawScale = cellScale * (1/scale);
