@@ -6,6 +6,8 @@ float dt = 0.1f; //
 
 double drawScale; //pixels per meter
 double cellScale; //pixels per cell
+float XOffset;
+float YOffset;
 
 class Dipole {
   double current = 1.0f;
@@ -15,26 +17,37 @@ class Dipole {
   float length = 0.2f;
 }
 
+void changeScale(float factor) {
+  cellScale *= factor;
+  drawScale = cellScale * (1/scale);
+  
+  XOffset = (float)((width - cellScale * simRes[0])/2.0f);
+  YOffset = (float)((height - cellScale * simRes[1])/2.0f);
+}
+
 void setup() {
   size(displayWidth, displayHeight);
  
   if(width <= height) {
-    cellScale = (float)width / (float)simRes[0];
+    cellScale = ((float)width - 1.0f) / (float)simRes[0];
   } else {
-    cellScale = (float)height / (float)simRes[1];
+    cellScale = ((float)height - 1.0f) / (float)simRes[1];
   }
   
   drawScale = cellScale * (1/scale);
+  
+  changeScale(0.9f);
 }
 
 void draw() {
-  background(0, 0, 0);
-  stroke(255, 255, 255);
+  background(20, 20, 20);
+  stroke(80, 80, 80);
+  
   for(int i = 0; i < simRes[1] + 1; i++) {
-    line(0, (float)(i * cellScale), (float)(simRes[1] * cellScale), (float)(i * cellScale));
+    line(XOffset, (float)(i * cellScale) + YOffset, (float)(simRes[1] * cellScale) + XOffset, (float)(i * cellScale) + YOffset);
   }
   for(int i = 0; i < simRes[0] + 1; i++) {
-    line((float)(i * cellScale), 0, (float)(i * cellScale), (float)(simRes[1] * cellScale));
+    line((float)(i * cellScale) + XOffset, YOffset, (float)(i * cellScale) + XOffset, (float)(simRes[1] * cellScale) + YOffset);
   }
   
   
