@@ -1,7 +1,4 @@
-int[] simRes = {4,4};
-static int windowWidth = 1280;
-static int windowHeight = 720;
-
+int[] simRes = {64,64};
 
 int[][] eField = new int[simRes[0]][simRes[1]];
 float scale = 0.01f; //m per sim unit
@@ -19,7 +16,7 @@ class Dipole {
 }
 
 void setup() {
-  surface.setSize(windowWidth, windowHeight);
+  size(displayWidth, displayHeight);
  
   if(width <= height) {
     cellScale = (float)width / (float)simRes[0];
