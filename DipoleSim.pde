@@ -20,7 +20,7 @@ class Dipole {
   float y = 0.32f;
   float length = 0.2f;
   int divs = 16; //Number of divisions to simulate the dipole with
-  double frequency = 5.0f; //Frequency of the standing wave in hertz
+  double frequency = 0.2f; //Frequency of the standing wave in hertz
   double time = 0.0f;
   
   
@@ -33,8 +33,11 @@ class Dipole {
     time += dt;
     
     for(int div = 0; div < divs; div++) {
+      divVoltages[div] = voltage * cos((PI / (float)divs) * ((float)div + 0.5f)) * sin((float)(frequency * TWO_PI * time));
+      
+      
       strokeWeight(3);
-      stroke(255, 0, 0);
+      stroke(constrain((float)((-divVoltages[div] / voltage) * 255.0f), 0.0f, 255.0f), constrain((float)((divVoltages[div] / voltage) * 255.0f), 0.0f, 255.0f), 0);
       line((float)(x * drawScale + XOffset), (float)(((y * drawScale + YOffset) - length / 2 * drawScale) + length / divs * div * drawScale), (float)(x * drawScale + XOffset), (float)(((y * drawScale + YOffset) - length / 2 * drawScale) + length / divs * (div + 1) * drawScale));
     }
   }
@@ -74,5 +77,5 @@ void draw() {
     line((float)(i * cellScale) + XOffset, YOffset, (float)(i * cellScale) + XOffset, (float)(simRes[1] * cellScale) + YOffset);
   }
   
-  mainAnt.simulate(0.1f);
+  mainAnt.simulate(1.0f / 60.0f);
 }
